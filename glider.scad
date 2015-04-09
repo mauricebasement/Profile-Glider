@@ -1,19 +1,15 @@
 $fn=50; 
 //LittleRP
 module profile() {
-    import("profile.dxf");
-    for(i=[1:3])rotate([0,0,i*90])
-        translate([0,-10])for(i=[0,1])mirror([i,0,0])
-            polygon(points=[[-10,0],[0,0],[0,7],[-4,7],[-8,2],[-10,2]]);
-     circle(r=2.5);
-}    
+   import("dxf/profile_reduced.dxf");
+}
 module glider(blockY=8,tolerance=0.1) {
     offset(r=-tolerance)difference() {
         union() {
             translate([0,5])square([5,10],center=true);
             translate([0,-0.5*blockY])square([20,blockY],center=true);          
         }
-        translate([0,10])profile();
+        translate([0,10])!profile();
         translate([8.5,-7])square([3,10],center=true);
      }
 }
