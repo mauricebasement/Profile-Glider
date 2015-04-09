@@ -1,3 +1,4 @@
+use <../MyOpenSCADLibrary/library2d.scad>
 $fn=50; 
 //LittleRP
 module profile() {
@@ -9,7 +10,7 @@ module glider(blockY=8,tolerance=0.1) {
             translate([0,5])square([5,10],center=true);
             translate([0,-0.5*blockY])square([20,blockY],center=true);          
         }
-        translate([0,10])!profile();
+        translate([0,10])profile();
         translate([8.5,-7])square([3,10],center=true);
      }
 }
