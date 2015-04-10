@@ -13,8 +13,8 @@ screwRadius = 1.5;
 screwShell = 0.5;
 screwTolerance = 1.05;
 screwDistance = 5;
-nutRadius = 3.3;
-nutHeight = 2.5;
+nutRadius = 3.4;
+nutHeight = 3;
 
 //Profile_Reduced Module
 module profile() {
@@ -31,33 +31,36 @@ module glider(tolerance=tolerance,gliderY=gliderY,gliderB=gliderB) {
     }
 }
 module extrusion(height=height) {
-    translate([0,0,-height/2])linear_extrude(height=height) {
-        support(shell)glider();
-        difference() {
-            glider();
-            offset(r=-shell)glider();
-        }
+    difference() {
+        translate([0,0,-height/2])linear_extrude(height=height)glider();        
+        screw_tr()scale([0.99,0.99,1.01])screw_hull();
     }
+    screw_tr()screw();
 }
 difference() {
-    !extrusion();
-    screw_tr()screw_hull();
+    extrusion();
+    support_cut();
 }
-screw_tr()screw();
+module support_cut() {
+    translate([0,0,-height/2])linear_extrude(height=height)intersection() {
+        offset(r=-shell)glider();
+        negativ_sq()support()offset(r=-shell)glider();
+    }
+}
 module screw_tr() {
     for(i=[-1,1])translate([0,-gliderY/2,i*(height/2-screwDistance)])rotate([0,90,0])children();
 }
 module screw_hull() {
     union() {
             cylinder(h=profileSize-2*tolerance,r=screwRadius*screwTolerance+screwShell,center=true);
-            translate([0,0,-profileSize/2+(nutHeight+screwShell)/2])cylinder(h=nutHeight+screwShell,r=nutRadius+screwShell,center=true);
+            translate([0,0,-profileSize/2+(nutHeight+screwShell)/2+tolerance])cylinder(h=nutHeight+screwShell,r=nutRadius+screwShell,center=true);
     }
 }
 module screw() {
     difference() {
         screw_hull();
         cylinder(h=profileSize-2*tolerance,r=screwRadius*screwTolerance,center=true);
-        translate([0,0,-profileSize/2+nutHeight/2])cylinder(h=nutHeight,r=nutRadius,center=true,$fn=6);
+        translate([0,0,-profileSize/2+nutHeight/2+tolerance])cylinder(h=nutHeight,r=nutRadius,center=true,$fn=6);
     }
 }
 module support(shell) {
@@ -78,5 +81,11 @@ module comb(r,d,fn) {
     difference() {
         circle(r=r,$fn=fn);
         circle(r=r-d,$fn=fn);
+    }
+}
+module negativ_sq() {
+    difference() {
+        hull()children();
+        children();
     }
 }
