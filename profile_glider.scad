@@ -8,7 +8,7 @@ gliderY = 10;
 gliderB = 5;
 gliderD = 10;
 shell = 0.4;
-height = 20;
+height = 80;
 screwRadius = 1.5;
 screwShell = 0.5;
 screwTolerance = 1.05;
@@ -49,7 +49,7 @@ module support_cut() {
     }
 }
 module screw_tr() {
-    for(i=[-1,1])translate([0,-gliderY/2,i*(height/2-screwDistance)])rotate([0,90,0])children();
+    for(i=[-1,0,1])translate([0,-gliderY/2,i*(height/2-screwDistance)])rotate([0,90,0])children();
 }
 module screw_hull() {
     union() {
