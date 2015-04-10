@@ -15,7 +15,7 @@ screwTolerance = 1.05;
 screwDistance = 5;
 nutRadius = 3.4;
 nutHeight = 3;
-support = 0.25
+support = 0.25;
 
 //Profile_Reduced Module
 module profile() {
