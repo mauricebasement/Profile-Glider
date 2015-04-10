@@ -7,7 +7,7 @@ tolerance = 0.18;
 gliderY = 10;
 gliderB = 5;
 gliderD = 10;
-shell = 0.3;
+shell = 0.4;
 height = 20;
 screwRadius = 1.5;
 screwShell = 0.5;
@@ -15,6 +15,7 @@ screwTolerance = 1.05;
 screwDistance = 5;
 nutRadius = 3.4;
 nutHeight = 3;
+support = 0.25
 
 //Profile_Reduced Module
 module profile() {
@@ -69,7 +70,7 @@ module support(shell) {
         offset(r=-shell)children();
     }
 }
-module honeycomb(x=10,y=10,r=1,d=0.1,fn=6,fac=1) {
+module honeycomb(x=10,y=10,r=1,d=support,fn=6,fac=1) {
     for(k=[-1,1])for(l=[0:2*(r+r*sin(30)-d):x]){
         for(i=[1,-1])for(j=[0:2*r*cos(30)-d:y]) {
             translate([k*l,i*j])comb(r,d*fac,fn);
